@@ -1,0 +1,7 @@
+{
+    "event": "some_custom_event",
+    "packages": {
+        "pandas": "2.2.3",
+        "pyarrow": "18.1.0"
+    }
+}
