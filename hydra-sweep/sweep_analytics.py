@@ -33,14 +33,15 @@ class SweepAnalyticsFlow(FlowSpec):
         chart = []
         for run in runs:
             d = run.data
-            rows.append([d.config['cpu'], d.config['tensor_dim'], d.count])
-            chart.append({
-                'perf': d.count,
-                'cpu': d.config['cpu'],
-                'dim': d.config['tensor_dim']
-            })
+            if d is not None:
+                rows.append([d.config['cpu'], d.config['tensor_dim'], d.count])
+                chart.append({
+                    'perf': d.count,
+                    'cpu': d.config['cpu'],
+                    'dim': d.config['tensor_dim']
+                })
         rows.sort()
-        current.card.append(Markdown(f"# Found {len(runs)} runs for `{self.config.tag}`"))
+        current.card.append(Markdown(f"# Found {len(rows)} completed runs for `{self.config.tag}`"))
         current.card.append(Table(rows, headers=['cpu', 'tensor_dim', 'squarings/second']))
         CHART['data'] = {'values': chart}
         current.card.append(VegaChart(CHART))

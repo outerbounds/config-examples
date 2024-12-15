@@ -10,6 +10,6 @@ hydra:
     sweeper:
         params:
             +cpu: range(1, 16, 1)
-            +tensor_dim: range(1000, 7000, 2000)
+            +tensor_dim: range(1000, 1750, 250)
     launcher:
         n_jobs: 2
