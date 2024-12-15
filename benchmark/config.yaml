@@ -1,0 +1,11 @@
+
+parquet_urls:
+    - s3://ursa-labs-taxi-data/2014/12/
+    - s3://ursa-labs-taxi-data/2014/11/
+    - s3://ursa-labs-taxi-data/2014/10/
+
+remote: batch
+
+resources:
+    cpu: 4
+    memory: 16000
