@@ -1,0 +1,15 @@
+
+defaults:
+  - override hydra/launcher: joblib
+
+timeout: 300
+variant_id: ${cpu}x${tensor_dim}
+event: null
+
+hydra:
+    sweeper:
+        params:
+            +cpu: range(1, 16, 1)
+            +tensor_dim: range(1000, 7000, 2000)
+    launcher:
+        n_jobs: 2
