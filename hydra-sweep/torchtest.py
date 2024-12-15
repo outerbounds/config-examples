@@ -1,15 +1,25 @@
-from metaflow import FlowSpec, step, current, project, Flow, resources, card, pypi, Config
+from metaflow import (
+    FlowSpec,
+    step,
+    current,
+    project,
+    Flow,
+    resources,
+    card,
+    pypi,
+    Config,
+)
 from metaflow.integrations import ArgoEvent
 from metaflow.cards import Markdown
 import time
 
-@project(name='torchperf')
-class TorchPerfFlow(FlowSpec):
 
-    config = Config('config', default_value='')
+@project(name="torchperf")
+class TorchPerfFlow(FlowSpec):
+    config = Config("config", default_value="")
 
     @card(type="blank", refresh_interval=1, id="status")
-    @pypi(python='3.11.0', packages={'torch': '2.5.1'})
+    @pypi(python="3.11.0", packages={"torch": "2.5.1"})
     @resources(cpu=config.cpu, memory=16000)
     @step
     def start(self):
@@ -34,6 +44,7 @@ class TorchPerfFlow(FlowSpec):
 
     def run_squarings(self, tensor, seconds=30):
         import torch  # pylint: disable=import-error
+
         print(f"Using {self.config.cpu} threads for computation")
         torch.set_num_threads(self.config.cpu)
         torch.set_num_interop_threads(self.config.cpu)
@@ -60,6 +71,7 @@ class TorchPerfFlow(FlowSpec):
     @step
     def end(self):
         ArgoEvent(self.config.event).safe_publish()
+
 
 if __name__ == "__main__":
     TorchPerfFlow()

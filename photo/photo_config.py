@@ -4,6 +4,7 @@ from metaflow.cards import Image
 
 BASE = "https://picsum.photos/id"
 
+
 class ConfigurablePhotoFlow(FlowSpec):
     cfg = Config("config", default="photo_config.json")
     id = Parameter("id", default=cfg.id, type=int)

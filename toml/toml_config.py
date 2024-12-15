@@ -1,11 +1,9 @@
-
-
 import pprint
 from metaflow import FlowSpec, step, Config, resources
 
-class TomlConfigFlow(FlowSpec):
 
-    config = Config('config', default='myconfig.toml', parser='tomllib.loads')
+class TomlConfigFlow(FlowSpec):
+    config = Config("config", default="myconfig.toml", parser="tomllib.loads")
 
     @resources(cpu=config.resources.cpu)
     @step
@@ -18,5 +16,6 @@ class TomlConfigFlow(FlowSpec):
     def end(self):
         pass
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     TomlConfigFlow()
