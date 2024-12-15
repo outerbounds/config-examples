@@ -1,0 +1,7 @@
+training:
+  alpha: 0.5
+  epochs: 100
+id: training-${training.alpha}-${training.epochs}
+dataset:
+  name: myfile.txt
+  preprocess: false
