@@ -10,9 +10,14 @@ class MyFlow(FlowSpec):
     def start(self):
         from omegaconf import OmegaConf
         from hydra.utils import instantiate
+        from datetime import datetime, timedelta
         
         cfg_dict = self.config._data
         cfg = OmegaConf.create(cfg_dict) 
+        start_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        close_date = (datetime.now() - timedelta(days=cfg.lookback_days)).strftime("%Y-%m-%d %H:%M:%S")
+        cfg.start_date = start_date
+        cfg.close_date = close_date
         instance = instantiate(cfg)
         print(f"Instantiated: {instance}")
         self.next(self.end)

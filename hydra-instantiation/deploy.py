@@ -13,14 +13,16 @@ def main(my_dict):
     env["METAFLOW_FLOW_CONFIG_VALUE"] = json_config
     deployer = Deployer("flow.py", env=env, decospecs=["retry"], environment="conda")
     deployed_flow = deployer.argo_workflows().create()
-    execution = deployed_flow.trigger()
+    execution1 = deployed_flow.trigger()
+    execution2 = deployed_flow.trigger()
 
 if __name__ == "__main__":
     my_dict = {
         "optimizer": {
             "_target_": "optimizer_module.Optimizer",
             "algo": "SGD",
-            "lr": "0.01"
-        }
+            "lr": 0.01
+        },
+        "lookback_days": 30
     }
     main(my_dict)
