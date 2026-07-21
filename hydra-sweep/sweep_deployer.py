@@ -29,8 +29,11 @@ def trigger_and_wait(deployed, timeout=300):
 
 def deploy_analytics():
     conf = json.dumps({"config": {"event": EVENT, "tag": TAG}})
+    # Deployer's `env=` kwarg only applies to the spawned subprocess. Metaflow's
+    # click API pre-computes the flow's config CLI args in *this* process by
+    # reading os.environ directly, so it must be set here too.
+    os.environ["METAFLOW_FLOW_CONFIG_VALUE"] = conf
     env = os.environ.copy()
-    env.update({"METAFLOW_FLOW_CONFIG_VALUE": conf})
     deployer = Deployer("sweep_analytics.py", branch=TAG, env=env)
     return deployer.argo_workflows().create(tags=[TAG])
 
@@ -44,8 +47,8 @@ def sweep_deployer(cfg: DictConfig) -> None:
 
     dict_conf = OmegaConf.to_container(cfg, resolve=True)
     json_conf = json.dumps({"config": dict_conf})
+    os.environ["METAFLOW_FLOW_CONFIG_VALUE"] = json_conf
     env = os.environ.copy()
-    env.update({"METAFLOW_FLOW_CONFIG_VALUE": json_conf})
 
     deployer = Deployer("torchtest.py", branch=branch, env=env, environment="pypi")
     deployed = deployer.argo_workflows().create(tags=[TAG])
