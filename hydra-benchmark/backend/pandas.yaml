@@ -1,4 +1,4 @@
 name: pandas
 packages:
-    pandas: 2.2.3
-    pyarrow: 18.1.0
+  pandas: 3.0.2
+  pyarrow: 24.0.0
