@@ -3,14 +3,16 @@ import tempfile
 from importlib import import_module
 from urllib.parse import urlparse
 from urllib.request import urlretrieve
-from metaflow import FlowSpec, step, Config, pypi, resources, profile
+
+from metaflow import Config, FlowSpec, anaconda, card, profile, resources, step
 
 
 class ConfigurableBenchmark(FlowSpec):
     config = Config("config", default_value="")
 
     @resources(**config.resources)
-    @pypi(packages=config.backend.packages)
+    @anaconda(packages=config.backend.packages)
+    @card
     @step
     def start(self):
         self.stats = {}
