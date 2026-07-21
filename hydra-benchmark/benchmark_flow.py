@@ -1,6 +1,9 @@
 import os
+import tempfile
 from importlib import import_module
-from metaflow import FlowSpec, step, Config, S3, pypi, resources, profile
+from urllib.parse import urlparse
+from urllib.request import urlretrieve
+from metaflow import FlowSpec, step, Config, pypi, resources, profile
 
 
 class ConfigurableBenchmark(FlowSpec):
@@ -12,11 +15,15 @@ class ConfigurableBenchmark(FlowSpec):
     def start(self):
         self.stats = {}
         mod = import_module(f"backend.{self.config.backend.name}.benchmark")
-        with S3() as s3:
+        with tempfile.TemporaryDirectory() as tmp_dir:
             with profile("loading data"):
-                objs = s3.get_recursive(self.config.parquet_urls)
+                paths = []
+                for url in self.config.parquet_urls:
+                    dst = os.path.join(tmp_dir, os.path.basename(urlparse(url).path))
+                    urlretrieve(url, dst)
+                    paths.append(dst)
             with profile("running benchmark", stats_dict=self.stats):
-                self.result = mod.benchmark([obj.path for obj in objs])
+                self.result = mod.benchmark(paths)
             print("result", self.result)
         self.next(self.end)
 

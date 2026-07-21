@@ -1,11 +1,11 @@
-
 def benchmark(parquets):
     import duckdb
+
     con = duckdb.connect()
-    parqs = ','.join(f"'{p}'" for p in parquets)
+    parqs = ",".join(f"'{p}'" for p in parquets)
     query = f"""
         SELECT 
-            DATE_PART('hour', pickup_at) AS hour,
+            DATE_PART('hour', tpep_pickup_datetime) AS hour,
             SUM(total_amount) AS total_amount_sum
         FROM read_parquet([{parqs}])
         GROUP BY hour

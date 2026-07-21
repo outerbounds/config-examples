@@ -1,7 +1,7 @@
 parquet_urls:
-  - s3://ursa-labs-taxi-data/2014/12/
-  - s3://ursa-labs-taxi-data/2014/11/
-  - s3://ursa-labs-taxi-data/2014/10/
+  - https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2014-12.parquet
+  - https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2014-11.parquet
+  - https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2014-10.parquet
 
 remote: kubernetes
 
